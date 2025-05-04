@@ -6,19 +6,25 @@
 # Configuration
 output_dir="optimized_images"
 resize_percentage="30%" # Percentage to resize images (e.g., "50%")
-quality_jpeg="60"      # JPEG quality (0-100, lower is more compression)
-filename_prefix="img_"
+quality_jpeg="60"       # JPEG quality (0-100, lower is more compression)
+filename_prefix=""      # Prefix will be user input
 counter=1
 padding_length=4 # Number of digits for the counter (e.g., 3 for 001, 002)
 
 # Ensure output directory exists
 mkdir -p "$output_dir"
 
+# Get user prompt for filename prefix
+read -p "Enter the filename prefix for the optimized images: " filename_prefix
+
+# Get current date in dd-mm-yyyy format
+current_date=$(date +%d-%m-%Y)
+
 # Function to resize and optimize JPEG images
 optimize_jpeg_rename() {
   local input="$1"
   local padded_counter=$(printf "%0${padding_length}d" "$counter")
-  local output_name="${filename_prefix}${padded_counter}.jpg"
+  local output_name="${filename_prefix}_${current_date}_${padded_counter}.jpg"
   local output_path="$output_dir/$output_name"
 
   echo "Processing: $input -> $output_path"
